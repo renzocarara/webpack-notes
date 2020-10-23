@@ -1,0 +1,13 @@
+$myBlue: #007bff;
+.myButton {
+  background-color: $myBlue;
+  color: white;
+  border: 2px solid red;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    color: $myBlue;
+    background-color: white;
+  }
+}
