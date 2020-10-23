@@ -2,4 +2,7 @@
 node_modules/
 
 #output
-dist/
+#dist/
+
+#readme
+readme.txt
