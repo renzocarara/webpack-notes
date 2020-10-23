@@ -69,6 +69,10 @@ module.exports = {
         test: /\.css$/, // regExp : specifico "tutti i file css"
         use: ["style-loader", "css-loader"], // elenco loader per i file css
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/, // tipi di immagini
+        use: ["file-loader"], // loader necessario per le immagini
+      },
     ],
   },
 };

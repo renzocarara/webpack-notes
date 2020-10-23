@@ -35,3 +35,11 @@ h6 {
   color: teal;
   font-weight: 700;
 }
+.config {
+  color: fuchsia;
+  font-weight: 700;
+}
+
+#webpack-img {
+  max-width: 260px;
+}
