@@ -1,5 +1,8 @@
 # Dependency directories
 node_modules/
 
+#output
+dist/
+
 #temporary folder
 /temp
