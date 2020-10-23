@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Appunti su Webpack - il "module bundler per JS"</title>
+  <title>Appunti su webpack - il "module bundler per JS"</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -15,7 +15,7 @@
       <li>
         <h2>Introduzione</h2>
         <p>
-          Webpack è un cosiddetto "static module bundler", prende in input tutto un insieme di moduli
+          webpack è un cosiddetto "static module bundler", prende in input tutto un insieme di moduli
           "sorgenti", che possono essere file JS con tutte le loro dipendenze, immagini, file TS, CSS, SASS/LESS, font,
           etc. e crea in
           output dei cosiddetti "bundle" (anche più di uno, nel caso si può parlare di "chunks" che compongono il
@@ -58,17 +58,19 @@
       <li>
         <h2>File di Configurazione</h2>
         <p>
-          webpack.config.js è un file di configurazione da posizionare generalmente sotto la root di progetto. <br>
+          <span class="config">webpack.config.js</span> è un file di configurazione da posizionare generalmente sotto la
+          root di progetto. <br>
           Nel <span class="pckg-json">package.json</span> inserisco questo script: <br>
           <span class="pckg-json">"build" : "webpack"</span> <br>
           poi dalla CLI dò il comando <br>
           <span class="npm-command">&gt;npm run build</span> <br>
-          in questo modo invoco Webpack che compilerà i miei sorgenti e genererà un bundle nella cartella
+          in questo modo invoco webpack che compilerà i miei sorgenti e genererà un bundle nella cartella
           <strong>dist</strong>, utilizzando le opzioni specificate nel file di configurazione. <br>
           Ad esempio se voglio utilizzare nel mio progetto dei files .css, dovrò installare i loader necessari (sono i
-          package <em>style-css</em> e <em>css-loader</em>) e poi nel file di configurazione devo dire a Webpack di
+          package <em>style-css</em> e <em>css-loader</em>) e poi nel file di configurazione devo dire a webpack di
           utilizzarli (con la
-          proprietà " use") e per quali tipi di file (con la proprità "test" , che accetta una RegExp). <br>
+          proprietà "<span class="config">use</span>") e per quali tipi di file (con la proprità "<span
+            class="config">test</span>" , che accetta una RegExp). <br>
           Per poter utilizzare i file .scss nel progetto sono necessari i loaders: <em>sass-loader</em> e
           <em>sass</em>.
           <br>
@@ -96,15 +98,15 @@
           &lt;/body&gt;. ) <br>
           <em>clean-webpack-plugin</em>: cancella tutti i file "vecchi" che non serveno a webpack dalla cartella
           <strong>dist</strong>. <br> Esistono molti altri plugins (<a target="_blank" rel="noopener noreferrer"
-            href="https://webpack.js.org/plugins/">doc
-            ufficiali</a> )
+            href="https://webpack.js.org/plugins/">documentazione
+            ufficiale</a> )
         </p>
       </li>
       <li>
         <h2>Debug e Source Map</h2>
         <p>
           Inserendo questa proprietà nel file di configurazione: <br>
-          devtool : "inline-source-map" <br>
+          <span class="config">devtool : "inline-source-map"</span> <br>
           è possibile avere delle info aggiuntive utili quando ci sono degli errori o si deve debuggare. Vengono
           generate delle "mappe" del codice sorgente, che mi permetteno ad esempio di sapere esattamente quale porzione
           di codice ha dato errore. Nei devtools del browser (F12), sia sotto "Console" che sotto "Sources" ho delle
@@ -116,7 +118,7 @@
       <li>
         <h2>Watch</h2>
         <p>
-          L'opzione "WATCH" permette di avere Webpack in ascolto di eventuali modifiche sui file sorgente e nel caso
+          L'opzione "WATCH" permette di avere webpack in ascolto di eventuali modifiche sui file sorgente e nel caso
           eseguire automaticamente una nuova build. <br> E' necessario inserire un nuovo script in <span
             class="pckg-json">package.json</span>: <br>
           <span class="pckg-json">"watch": "webpack --watch"</span> <br>
@@ -124,13 +126,13 @@
           <span class="npm-command">&gt;npm run build</span> <br>
           darò <br>
           <span class=" npm-command">&gt;npm run watch</span> <br>
-
+          <!-- https://github.com/webpack/webpack-cli/issues/1918 -->
           NOTA: ad oggi 23/10/2020 sulla versione 4 di webpack-cli, c'è un baco per cui vengono generati dei warning
-          (DeprecationWarning, rif. <a target="_blank" rel="noopener noreferrer"
-            href='https://github.com/webpack/webpack-cli/issues/1918'>https://github.com/webpack/webpack-cli/issues/1918</a>)
+          (DeprecationWarning, info a questo <a target="_blank" rel="noopener noreferrer"
+            href='https://github.com/webpack/webpack-cli/issues/1918'>link</a>)
           <br>
           In alternativa, se inserisco, nel file di configurazione, la proprietà: <br>
-          watch: true <br>
+          <span class="config">watch: true</span> <br>
           il comando <span class="npm-command">&gt;npm run build</span> compila e poi và in watch. <br>
         </p>
       </li>
@@ -154,14 +156,14 @@
       </li>
       <li>
         <h2>Esempio</h2>
+        <p id="example">
         <p>
           Questo bottone, al click, invoca una funzione che scrive in Console una stringa. <br>
-          Il codice che crea il bottone e gestisce il click è scritto nell'entry point file (index.js), mentre
-          la funzione che viene richiamata è definita in un altromodulo (module1.js) che viene "importato" dal modulo
+          Il codice che crea il bottone e gestisce il click è definito nell'entry point file (index.js), mentre
+          la funzione che viene richiamata è definita in un altro modulo (module1.js) che viene "importato" dal modulo
           chiamante. Vedi codice nella <a target='_blank' rel='noopener noreferrer'
-            href='https://github.com/renzocarara/webpack-notes'>repo</a>
+            href='https://github.com/renzocarara/webpack-notes'>repo</a>.
         </p>
-        <p id="example">
         </p>
       </li>
     </ol>
@@ -173,11 +175,11 @@
             <div class="mb-1 pt-3 pb-3">
               <hr>
               Riferimenti: <br>
-              <a target="_blank" rel="noopener noreferrer" href="https://webpack.js.org/"> Webpack official site</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://webpack.js.org/"> webpack official site</a>
               <br>
               <a target="_blank" rel="noopener noreferrer"
-                href="https://fabiobiondi.teachable.com/p/webpack-4-introduction"> Video corso su
-                Webpack versione 4</a> <br> <br>
+                href="https://fabiobiondi.teachable.com/p/webpack-4-introduction"> Video corso webpack versione 4</a>
+              <br> <br>
               <a target="_blank" rel="noopener" href="https://renzocarara.it"><small>&copy; 2020 - Renzo
                   Carara</small></a>
             </div>
