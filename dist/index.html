@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  <title>Appunti su webpack - il "module bundler per JS"</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="container pt-5">
+    <header></header>
+
+    <ol>
+      <li>
+        <h2>Introduzione</h2>
+        <p>
+          webpack è un cosiddetto "static module bundler", prende in input tutto un insieme di moduli
+          "sorgenti", che possono essere file JS con tutte le loro dipendenze, immagini, file TS, CSS, SASS/LESS, font,
+          etc. e crea in
+          output dei cosiddetti "bundle" (anche più di uno, nel caso si può parlare di "chunks" che compongono il
+          bundle o più semplicemente di bundle multipli) che sono dei file statici interpretabili dal browser.<br>
+          Ha parzialmente rimpiazzato i task runner quali Grunt e Gulp. <br>
+          I principali componenti sono: <br>
+
+          <strong>entry-point</strong>: per default è "src/index.js" il file sorgente da cui parte il processo di
+          compilazione <br>
+          <strong>output</strong>: è la cartella "dist" che contiene il risultato della compilazione <br>
+          <strong>loaders</strong>: sono quei package che permettono a webpack di generare il risultato finale <br>
+          <strong>plugins</strong>: sono appunto dei plugin che aggiungono funzionalità alla fase di generazione del
+          bundle <br>
+
+        </p>
+      </li>
+      <li>
+        <h2>Installazione</h2>
+        <p>
+          Creo una nuova cartella di progetto e inizializzo il nuovo progetto: <br>
+          <span class="npm-command">&gt;npm init -y</span> <br>
+          installo webpack e la sua CLI come dipendenze di sviluppo (devDependencies): <br>
+          <span class=" npm-command">&gt;npm i webpack webpack-cli --save-dev</span> <br><br>
+          La struttura delle cartelle del mio progetto inizialmente sarà più o meno questa: <br>
+          <strong>progetto</strong> <br>
+          |______ <strong>dist</strong> <br>
+          |______ <strong>src</strong> <br>
+          <span class="d-inline-block pl-4 ml-5">index.js</span> <br>
+          |______ <strong>node_modules</strong> <br>
+          <span class="d-inline-block ml-5">package.json</span> <br>
+          <span class="d-inline-block ml-5">package-lock.json</span> <br>
+          <span class="d-inline-block ml-5">webpack.config.js</span> <br> <br>
+
+          La cartella <strong>src</strong> conterrà i moduli sorgenti, incluso l'entry-point. <br>
+          La cartella <strong>dist</strong> è quella di output che contiene i bundle generati. <br>
+          "webpack.config.js" è un file di configurazione da creare a mano.
+
+        </p>
+      </li>
+      <li>
+        <h2>File di Configurazione</h2>
+        <p>
+          <span class="config">webpack.config.js</span> è un file di configurazione da posizionare generalmente sotto la
+          root di progetto. <br>
+          Nel <span class="pckg-json">package.json</span> inserisco questo script: <br>
+          <span class="pckg-json">"build" : "webpack"</span> <br>
+          poi dalla CLI dò il comando <br>
+          <span class="npm-command">&gt;npm run build</span> <br>
+          in questo modo invoco webpack che compilerà i miei sorgenti e genererà un bundle nella cartella
+          <strong>dist</strong>, utilizzando le opzioni specificate nel file di configurazione. <br>
+          Ad esempio se voglio utilizzare nel mio progetto dei files .css, dovrò installare i loader necessari (sono i
+          package <em>style-css</em> e <em>css-loader</em>) e poi nel file di configurazione devo dire a webpack di
+          utilizzarli (con la
+          proprietà "<span class="config">use</span>") e per quali tipi di file (con la proprità "<span
+            class="config">test</span>" , che accetta una RegExp). <br>
+          Per poter utilizzare i file .scss nel progetto sono necessari i loaders: <em>sass-loader</em> e
+          <em>sass</em>.
+          <br>
+
+        </p>
+      </li>
+      <li>
+        <h2>Bundle multipli</h2>
+        <p>
+          Ogni file creato dalla build è chiamato "bundle" o "chunk". Se voglio generare più chunks devo specificarlo
+          nel file di configurazione, in particolare nella proprietà
+          "output". E' possibile generare i nomi dei file (dei chunks) in maniera "dinamica" utilizzando una variabile
+          [name]. <br>
+        </p>
+      </li>
+      <li>
+        <h2>Plugins</h2>
+        <p>
+          I plugin forniscono delle funzionalità aggiuntive in fase di generazione della build. <br>
+          Esempi di plugin: <br>
+          <em>html-webpack-plugin</em>: gestisce automaticamente l'elenco dei "chunks" che includo nel mio file
+          index.html, cioè in fase di generazione va ad inserire in automatico nel file index.html l'elenco dei chunks
+          generati (inserisce i relativi tag "
+          &lt;script&gt;&lt;/script&gt;" in fondo al file prima della chiusura del
+          &lt;/body&gt;. ) <br>
+          <em>clean-webpack-plugin</em>: cancella tutti i file "vecchi" che non serveno a webpack dalla cartella
+          <strong>dist</strong>. <br> Esistono molti altri plugins (<a target="_blank" rel="noopener noreferrer"
+            href="https://webpack.js.org/plugins/">documentazione
+            ufficiale</a> )
+        </p>
+      </li>
+      <li>
+        <h2>Debug e Source Map</h2>
+        <p>
+          Inserendo questa proprietà nel file di configurazione: <br>
+          <span class="config">devtool : "inline-source-map"</span> <br>
+          è possibile avere delle info aggiuntive utili quando ci sono degli errori o si deve debuggare. Vengono
+          generate delle "mappe" del codice sorgente, che mi permetteno ad esempio di sapere esattamente quale porzione
+          di codice ha dato errore. Nei devtools del browser (F12), sia sotto "Console" che sotto "Sources" ho delle
+          info più
+          specifiche. Sotto "Sources" trovo tutti i file del mio progetto, sia i sorgenti che quelli ottenuti dalla
+          compilazione. <br>
+        </p>
+      </li>
+      <li>
+        <h2>Watch</h2>
+        <p>
+          L'opzione "WATCH" permette di avere webpack in ascolto di eventuali modifiche sui file sorgente e nel caso
+          eseguire automaticamente una nuova build. <br> E' necessario inserire un nuovo script in <span
+            class="pckg-json">package.json</span>: <br>
+          <span class="pckg-json">"watch": "webpack --watch"</span> <br>
+          dopodichè, dalla CLI, anzichè <br>
+          <span class="npm-command">&gt;npm run build</span> <br>
+          darò <br>
+          <span class=" npm-command">&gt;npm run watch</span> <br>
+          <!-- https://github.com/webpack/webpack-cli/issues/1918 -->
+          NOTA: ad oggi 23/10/2020 sulla versione 4 di webpack-cli, c'è un baco per cui vengono generati dei warning
+          (DeprecationWarning, info a questo <a target="_blank" rel="noopener noreferrer"
+            href='https://github.com/webpack/webpack-cli/issues/1918'>link</a>)
+          <br>
+          In alternativa, se inserisco, nel file di configurazione, la proprietà: <br>
+          <span class="config">watch: true</span> <br>
+          il comando <span class="npm-command">&gt;npm run build</span> compila e poi và in watch. <br>
+        </p>
+      </li>
+      <li>
+        <h2>Web Server</h2>
+        <p>
+          Per ottenere un server locale sul quale hostare il progetto, bisogna installare questo package: <br>
+          <span class=" npm-command">&gt;npm i --save-dev webpack-dev-server</span> <br>
+          poi nel file <span class="pckg-json">package.json</span> aggiungo questo script: <br>
+          <span class="pckg-json">"start": "webpack serve"</span> <br>
+          e infine, da CLI, dò il comando: <br>
+          <span class="npm-command">&gt;npm start</span> <br>
+          Verrà creato un server locale accessibile sulla porta 8080 (default): http://localhost:8080 <br>
+          Ad ogni modifica dei file sorgenti ci sarà un " live reload" e la pagina risulterà aggiornata praticamente in
+          tempo reale con le modifiche appena inserite. <br>
+          NOTA BENE: webpack-dev-server non scrive nessun file di output dopo la compilazione.
+          Invece, tiene i bundle files generati in memoria e li serve tramite il server locale, per cui nella cartella
+          "dist" non avrò nessun bundle aggiornato. Per aggiornare i file in "dist" devo dare un comando di "build" o
+          "watch".
+        </p>
+      </li>
+      <li>
+        <h2>Esempio</h2>
+        <p id="example">
+        <p>
+          Questo bottone, al click, invoca una funzione che scrive in Console una stringa. <br>
+          Il codice che crea il bottone e gestisce il click è definito nell'entry point file (index.js), mentre
+          la funzione che viene richiamata è definita in un altro modulo (module1.js) che viene "importato" dal modulo
+          chiamante. Vedi codice nella <a target='_blank' rel='noopener noreferrer'
+            href='https://github.com/renzocarara/webpack-notes'>repo</a>.
+        </p>
+        </p>
+      </li>
+    </ol>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="mb-1 pt-3 pb-3">
+              <hr>
+              Riferimenti: <br>
+              <a target="_blank" rel="noopener noreferrer" href="https://webpack.js.org/"> webpack official site</a>
+              <br>
+              <a target="_blank" rel="noopener noreferrer"
+                href="https://fabiobiondi.teachable.com/p/webpack-4-introduction"> Video corso webpack versione 4</a>
+              <br> <br>
+              <a target="_blank" rel="noopener" href="https://renzocarara.it"><small>&copy; 2020 - Renzo
+                  Carara</small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+<script src="app.bundle.js"></script><script src="module1.bundle.js"></script></body>
+
+</html>
