@@ -73,6 +73,18 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/, // tipi di immagini
         use: ["file-loader"], // loader necessario per le immagini
       },
+      {
+        test: /\.ico$/,  // per i file di tipo .ico, in fase di build, quando vengono copiati sotto la cartella "dist"
+        use: [           // mantengo il filename originale anzichè una stringa alfanumerica non significativa
+          {              // avrò favicon.ico anzichè un qualcosa tipo 8e1eb94c8619a9981b934861ab3ede4f.ico
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]", // <-- retain original file name
+            },
+          },
+        ],
+        // loader: "file-loader?name=[name].[ext]", // <-- retain original file name
+      },
     ],
   },
 };

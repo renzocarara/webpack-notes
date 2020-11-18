@@ -2,12 +2,15 @@
 //            questo è il mio file entry-point per webpack
 // ////////////////////////////////////////////////////////////////////////
 
+require("./assets/favicon.ico"); // importo la favicon
+
 import "./scssStyle.scss"; // importo il file scss
 import "./style.css"; // importo il file css
 
 import "bootstrap/dist/css/bootstrap.min.css"; // importo bootstrap
 
 import webpackImg from "./assets/webpack.png"; // importo un'immagine
+
 
 import logOnConsole from "./module1"; // importo la funzione logOnConsole() dal file module1.js
 
